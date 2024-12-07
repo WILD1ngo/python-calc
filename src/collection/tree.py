@@ -22,8 +22,8 @@ class nptr:
 
         # Only left child.
         if self.right is None:
-            lines, n, p, x = self.left._display_aux(self.left)
-            s = '%s' % self.val
+            lines, n, p, x = self.left._display_aux()
+            s = '%s' % self.data
             u = len(s)
             first_line = (x + 1) * ' ' + (n - x - 1) * '_' + s
             second_line = x * ' ' + '/' + (n - x - 1 + u) * ' '
@@ -33,7 +33,7 @@ class nptr:
         # Only right child.
         if self.left is None:
             lines, n, p, x = self.right._display_aux()
-            s = '%s' % self.val
+            s = '%s' % self.data
             u = len(s)
             first_line = s + x * '_' + (n - x) * ' '
             second_line = (u + x) * ' ' + '\\' + (n - x - 1) * ' '

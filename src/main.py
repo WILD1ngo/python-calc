@@ -1,13 +1,14 @@
 from user_input import *
 from buildTree import *
 from collection.tree import *
-
+from evaluateTree import *
 
 def main():
-    #while(Settings.isRunning):
-    input = Input()
-    tree = build(input)
-    tree.display()
+    while (True):
+        input = Input()
+        tree = build(input)
+        tree.display()
+        print(evaluateExpressionTree(tree))
 
 
 
