@@ -2,7 +2,10 @@ class CalculatorError(Exception):
     """Base exception class for calculator errors"""
     def __init__(self, location=""):
         self.location = location
-        super().__init__(f"{self.message} at {location}")
+        super().__init__(f"{self.message}")
+        if location != "":
+            self.message = f"{self.message} at {location}"
+        
 
 class InvalidInputError(CalculatorError):
     """Exception raised for invalid input in calculations"""

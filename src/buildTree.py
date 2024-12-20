@@ -17,6 +17,9 @@ class TreeBuilder:
         if two_digits_in_row:
             stC.append('+')
         num = ""
+        if s[i] == '-' and s[i+1].isdigit():
+            num += s[i]
+            i+=1
         while i < len(s) and (s[i].isdigit() or s[i] == '.' or s[i] == ' '):
             if s[i] == ' ':
                 i += 1
@@ -24,7 +27,7 @@ class TreeBuilder:
             num += s[i]
             i += 1
         i -= 1
-        t = newNode(float(num) if '.' in num else int(num))
+        t = newNode(float(num))
         stN.append(t)
         return i, True
 
@@ -81,6 +84,13 @@ class TreeBuilder:
         if not (s[j+i].isdigit() or s[i+j] == '('):
             raise MinusBeforeOperatorError(i+j)
         if j % 2 == 0:
+            
+            if s[i-1].isdigit():
+                stC.append('-')
+                i , bol = self.handle_digits(s, i+j-1, False, stN, stC)
+                return i
+                
+            
             i += j-1
         else:
             if s[i] == '~':

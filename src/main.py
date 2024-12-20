@@ -12,7 +12,7 @@ def main():
             if input.getStr().strip().lower() == 'exit':
                 break
             tree = TreeBuilder().build(input)
-            #tree.display()
+            tree.display()
             print(evaluateExpressionTree(tree))
         except Exception as exs:
             print(exs)
