@@ -9,7 +9,7 @@ def evaluateExpressionTree(root):
  
     # leaf node
     if root.left is None and root.right is None:
-        return float(root.data)
+        return root.data
  
     # evaluate left tree
     left_sum = evaluateExpressionTree(root.left)
@@ -45,9 +45,11 @@ def evaluateExpressionTree(root):
     elif root.data == '@':
         return (left_sum + right_sum) / 2
     elif root.data == '~':
-        return -max(left_sum,right_sum)
+        return -right_sum
     elif root.data == '!':
         return factorial(right_sum)
+    elif root.data == '#':
+        return sum_of_digits(right_sum)
     
  
  
@@ -57,3 +59,7 @@ def factorial(n):
         return 1
     else:
         return n * factorial(n-1)
+
+
+def sum_of_digits(n):
+    return sum([int(i) for i in str(n) if i.isdigit()])

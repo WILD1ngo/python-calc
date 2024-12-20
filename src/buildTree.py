@@ -21,7 +21,7 @@ def build(input : Istrable):
     p[ord('^')] = 3
     p[ord('%')] = 4
     p[ord('$')] = p[ord('@')] =  p[ord('&')] = 5
-    p[ord('~')] = p[ord('!')] = 6
+    p[ord('~')] = p[ord('!')] = p[ord('#')] =  6
     p[ord(')')] = 0
 
     i = 0
@@ -31,19 +31,32 @@ def build(input : Istrable):
         if s[i] == '(':
             # Push '(' in operator stack
             stC.append(s[i])
-        elif (s[i] == '-' and s[i+1] == '-'):
-            i += 1
+        elif ((s[i] == '-' and s[i+1] == '-') or (s[i] == '~' and s[i+1] == '-')):
+            if s[i-1] == '(':
+                stN.append(newNode(0))
+            j = 0
             
-        elif s[i].isdigit() or (s[i] == '-' and s[i+1].isdigit()):
+            if s[i] == '~':
+                j += 1
+            while s[j+i] == '-':
+                j += 1
+            print(s[j+i])
+            if not (s[j+i].isdigit()  or s[i+j] == '('):
+                raise Exception("- operator before another operator \n", i + j)
+            elif (j % 2 == 0):
+                i += j-1
+            else:
+                if s[i] == '~':
+                    stC.append('~')
+                    i += j-1
+                else:
+                    i += j-2
+        elif s[i].isdigit():# or (s[i] == '-' and s[i+1].isdigit())
             # To handle multi-digit numbers, for example: "342"
             if two_digits_in_row:
                 stC.append('+')
             two_digits_in_row = True
             num = ""
-            if (s[i] == '-'):
-                num += '-'
-                #stC.append('+')
-                i += 1
             while i < len(s) and (s[i].isdigit() or s[i] == '.' or s[i] == ' '):
                 if (s[i] == ' '):
                     i += 1
@@ -54,7 +67,10 @@ def build(input : Istrable):
             # Decrement the index as the outer loop increments it
             
             i -= 1
-            t = newNode(float(num))
+            if ('.' in num):
+                t = newNode(float(num))
+            else:    
+                t = newNode(int(num))
             stN.append(t)
         elif p[ord(s[i])] > 0:
             two_digits_in_row = False
@@ -68,7 +84,8 @@ def build(input : Istrable):
                 
                 
                 stC.pop()
-                if (t.data == '~' or t.data == '!' or t.data == '-'):
+                if (t.data == '~' or t.data == '!' or t.data == '-' or t.data == '#'):
+                    
                     t1 = stN[-1]
                     stN.pop()
                     t.right = t1
@@ -92,25 +109,28 @@ def build(input : Istrable):
                     stN.append(t)
 
             # Push current operator to operator stack
-            stC.append(s[i])
+            if (s[i] == '!' and (not(s[i-1].isdigit() or s[i-1] == '!' or s[i-1] == ')' ))):
+                raise Exception("invalid input a number need to be before factorial ! operator \n", i-1)
+            if (s[i] == '#' and (not(s[i-1].isdigit() or s[i-1] == '#' or s[i-1] == ')' ))):
+                raise Exception("invalid input a number need to be before sum of digits # operator \n", i-1)
+            if (s[i] == '~' and (not(s[i+1].isdigit() or s[i+1] == '(' or s[i+1] == '-'))):
+                raise Exception("invalid input there need to be a number after ~ \n", i+1)
+            if (s[i] == '~' and( s[i-1].isdigit() or s[i-1] == ')') ):
+                stC.append('+')
+            if (s[i] == '-' and s[i-1] == ')'):
+                stC.append('~')
+            else:    
+                stC.append(s[i])
 
         elif s[i] == ')':
             two_digits_in_row = False
-            if len(stC) == 1:
-                raise Exception("Error dont have '('\n", i)
             while len(stC) != 0 and stC[-1] != '(':
                 t = newNode(stC[-1])
                 stC.pop()
-                if (t.data == '!'):
-                    
+                if (t.data in ('!', '~', '#')):
                     t1 = stN[-1]
                     stN.pop()
                     t.right = t1
-                    stN.append(t)
-                elif(t.data == '~'):
-                    t1 = stN[-1]
-                    stN.pop()
-                    t.left = t1
                     stN.append(t)
                 else:    
                     t1 = stN[-1]
@@ -121,14 +141,17 @@ def build(input : Istrable):
                     t.right = t1
                     stN.append(t)
             stC.pop()
-        elif s[i].isspace():
-            i += 1
         else:
             raise Exception("invalid input (Only accsept numbers and operators) \n", i)
 
             
         i += 1
 
+    if len(stC) != 0:
+        raise Exception("invalid input (missing closing brackets) \n")    
     # The final tree root is the last remaining element in the operand stack
     return stN[-1]
- 
+
+
+    
+

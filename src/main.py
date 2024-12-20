@@ -1,3 +1,4 @@
+import traceback
 from user_input import *
 from buildTree import *
 from collection.tree import *
@@ -12,7 +13,7 @@ def main():
             if input.getStr() == 'Exit':
                 break
             tree = build(input)
-            #tree.display()
+            tree.display()
             print(evaluateExpressionTree(tree))
         except Exception as exs:
             if (len(exs.args) == 2):
@@ -21,7 +22,8 @@ def main():
                 print(input.getStr())
                 print(' ' * (location-1) + "^")
             else:
-                print (exs)
+                print(exs)
+                traceback.print_exc()
 
 
 
