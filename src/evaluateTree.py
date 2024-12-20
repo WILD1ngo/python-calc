@@ -1,5 +1,5 @@
 import math
-
+from Exeptions import *
 
 def evaluateExpressionTree(root):
  
@@ -35,6 +35,8 @@ def evaluateExpressionTree(root):
     elif root.data == '/':
         return left_sum / right_sum
     elif root.data == '^':
+        if left_sum < 0 and -1 < right_sum < 1:
+            raise NegativeSqrtError()
         return math.pow(left_sum , right_sum)
     elif root.data == '%':
         return left_sum % right_sum
@@ -55,6 +57,12 @@ def evaluateExpressionTree(root):
  
 def factorial(n):
     
+    if n < 0:
+        raise NegativeFactorialError()
+    elif not isinstance(n, int) and not n.is_integer():
+        raise FloatFactorialError()
+    if n > 950:
+        raise OverflowError()
     if n < 2:
         return 1
     else:
@@ -62,4 +70,6 @@ def factorial(n):
 
 
 def sum_of_digits(n):
+    if n < 0 :
+        raise NegativeSumError()
     return sum([int(i) for i in str(n) if i.isdigit()])

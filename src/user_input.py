@@ -4,8 +4,11 @@ from Istrable import *
 class Input(Istrable):
          
         
-    def __init__(self):
-        self.raw_input = input("> ")
+    def __init__(self , raw_input = ""):
+        if raw_input != "":
+            self.raw_input = raw_input
+        else :
+            self.raw_input = input("> ")
         self.remove_spaces()
         
         
