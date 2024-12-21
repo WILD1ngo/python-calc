@@ -59,10 +59,11 @@ def factorial(n):
     
     if n < 0:
         raise NegativeFactorialError()
-    elif not isinstance(n, int) and not n.is_integer():
-        raise FloatFactorialError()
     if n > 950:
         raise OverflowError()
+    elif not isinstance(n, int) and not n.is_integer():
+        raise FloatFactorialError()
+    
     if n < 2:
         return 1
     else:
