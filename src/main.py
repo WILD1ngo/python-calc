@@ -18,6 +18,9 @@ def main(print_tree = False):
         except Exception as exs:
             print(exs)
 
+
+
+
 def calculate_expression(input_str):
     input_obj = Input(input_str)
     tree = TreeBuilder().build(input_obj)

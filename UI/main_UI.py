@@ -62,6 +62,9 @@ class App(ctk.CTk):
 
     def calculate(self):
         exercise = self.exercise_text.get("1.0", "end-1c")
+        if not exercise:
+            return
+        exercise = exercise.replace('\n', '')
         try:
             result = calculate_expression(exercise)
         except Exception as e:

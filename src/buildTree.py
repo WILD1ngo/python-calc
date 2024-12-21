@@ -5,6 +5,9 @@ from src.Exeptions import *
 
 class TreeBuilder:
     def __init__(self):
+
+
+        # Operator precedence
         self.p = [0] * 127
         self.p[ord('+')] = self.p[ord('-')] = 1
         self.p[ord('/')] = self.p[ord('*')] = 2
@@ -13,7 +16,13 @@ class TreeBuilder:
         self.p[ord('$')] = self.p[ord('@')] = self.p[ord('&')] = 5
         self.p[ord('~')] = self.p[ord('!')] = self.p[ord('#')] = 6
         self.p[ord(')')] = 0
+
+
+
+
+
     def handle_digits(self,s: str, i: int, two_digits_in_row: bool, stN: list, stC: list) :
+        #function to handle digits
         if two_digits_in_row:
             stC.append('+')
         num = ""
@@ -32,7 +41,9 @@ class TreeBuilder:
         return i, True
 
     def handle_operator(self, s: str, i: int, stN: list, stC: list):
+        #function to handle operators 
         self.validate_operator(s, i)
+        
         while len(stC) != 0 and stC[-1] != '(' and \
                 ((s[i] != '^' and self.p[ord(stC[-1])] >= self.p[ord(s[i])]) or
                 (s[i] == '^' and self.p[ord(stC[-1])] > self.p[ord(s[i])])):
@@ -88,10 +99,15 @@ class TreeBuilder:
         if not (s[j+i].isdigit() or s[i+j] == '('):
             raise MinusBeforeOperatorError(i+j)
         if j % 2 == 0:
-            
-            if s[i-1].isdigit():
-                self.handle_operator(s, i+j-2, stN, stC)
+    
                 
+            if s[i-1].isdigit() and s[i+j] != '(':
+                
+                self.handle_operator(s, i+j-2, stN, stC)
+                #if s[i+j] == '(':
+                #    d = ['-','~','(']
+                #    self.handle_operator(d, 1, stN, stC)'
+                #else:           
                 i , bol = self.handle_digits(s, i+j-1, False, stN, stC)
                 return i
             #elif (s[i-1] == ')'):
@@ -103,6 +119,8 @@ class TreeBuilder:
                 stC.append('~')
                 i += j-1
             else:
+                if s[i] == '-' and s[i+1] == '(' and (6>self.p[ord(s[i-1])] > 1 or s[i-1] == '+'):
+                    stC.append('~')
                 if s[i-1] == '(':
                     stN.append(newNode(0))
                     self.handle_operator(s, i+j-2, stN, stC)
@@ -130,8 +148,10 @@ class TreeBuilder:
                 stC.append(s[i])
             elif (s[i] == '-' and s[i+1] == '-') or (s[i] == '~' and s[i+1] == '-'):
                 i = self.handle_double_minus(s, i, stN, stC)
-            elif s[i].isdigit() or (s[i] == '-' and  ((6 > self.p[ord(s[i-1])] > 0) )):#and not s[i-1] == '-'
+            elif s[i].isdigit() or (s[i] == '-' and  ((6 > self.p[ord(s[i-1])] > 0) and s[i+1].isdigit() )):#and not s[i-1] == '-'
                 i, two_digits_in_row = self.handle_digits(s, i, two_digits_in_row, stN, stC)
+            elif s[i] == '-' and s[i+1] == '(' and (6>self.p[ord(s[i-1])] > 1 or s[i-1] == '+'):
+                stC.append('~')
             elif self.p[ord(s[i])] > 0:
                 i, two_digits_in_row = self.handle_operator(s, i, stN, stC)
             elif s[i] == ')':
