@@ -65,10 +65,11 @@ class TreeBuilder:
         stN.append(t)
 
     def validate_operator(self, s: str, i: int):
-        if s[i] == '!' and not(s[i-1].isdigit() or s[i-1] == '!' or s[i-1] == ')'):
-            raise InvalidFactorialInputError(i-1)
-        if s[i] == '#' and not(s[i-1].isdigit() or s[i-1] == '#' or s[i-1] == ')'):
-            raise InvalidSumDigitsInputError(i-1)
+        if s[i] in ('#','!') and not(s[i-1].isdigit() or s[i-1] in ('#','!') or s[i-1] == ')'):
+            if s[i] == '#':
+                raise InvalidSumDigitsInputError(i-1)
+            else:
+                raise InvalidFactorialInputError(i-1)
         if s[i] == '~' and not(s[i+1].isdigit() or s[i+1] == '(' or s[i+1] == '-'):
             raise MissingNumberAfterTildeError(i+1)
         if ((6 > self.p[ord(s[i])] > 1) or s[i] == '+') and ((6 > self.p[ord(s[i-1])] > 1) or s[i-1] == '+'):
@@ -86,10 +87,12 @@ class TreeBuilder:
         if j % 2 == 0:
             
             if s[i-1].isdigit():
-                stC.append('-')
+                self.handle_operator(s, i+j-2, stN, stC)
+                
                 i , bol = self.handle_digits(s, i+j-1, False, stN, stC)
                 return i
-                
+            #elif (s[i-1] == ')'):
+            #   stC.append('+')
             
             i += j-1
         else:
@@ -99,7 +102,15 @@ class TreeBuilder:
             else:
                 if s[i-1] == '(':
                     stN.append(newNode(0))
-                i += j-2
+                    self.handle_operator(s, i+j-2, stN, stC)
+                    i += j-1
+                elif (s[i-1] == ')'):
+                    d = ['1','+','1']
+                    self.handle_operator(d, 1, stN, stC)
+                    i += j-2
+                else:
+                    
+                    i += j-2
         return i
 
     def build(self,input: Istrable):
@@ -116,9 +127,7 @@ class TreeBuilder:
                 stC.append(s[i])
             elif (s[i] == '-' and s[i+1] == '-') or (s[i] == '~' and s[i+1] == '-'):
                 i = self.handle_double_minus(s, i, stN, stC)
-            elif s[i] == '-' and (self.p[ord(s[i-1])] > 0 and not s[i-1] == '-'):
-                stC.append('~')
-            elif s[i].isdigit():
+            elif s[i].isdigit() or (s[i] == '-' and  ((6 > self.p[ord(s[i-1])] > 0) )):#and not s[i-1] == '-'
                 i, two_digits_in_row = self.handle_digits(s, i, two_digits_in_row, stN, stC)
             elif self.p[ord(s[i])] > 0:
                 i, two_digits_in_row = self.handle_operator(s, i, stN, stC)
