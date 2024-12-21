@@ -10,4 +10,4 @@ sudo apt install python-3.7
 pip install -r requirements.txt
 
 to run:
-pyrhonw3.7 src.main
+python3.7 .\calculator

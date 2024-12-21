@@ -1,6 +1,6 @@
-from Istrable import *
-from collection.tree import *
-from Exeptions import *
+from src.Istrable import *
+from src.collection.tree import *
+from src.Exeptions import *
 
 
 class TreeBuilder:
@@ -58,8 +58,11 @@ class TreeBuilder:
             t1 = stN.pop()
             t.right = t1
         else:
-            t1 = stN.pop()
-            t2 = stN.pop()
+            try:
+                t1 = stN.pop()
+                t2 = stN.pop()
+            except:
+                raise MissingOperandError()
             t.left = t2
             t.right = t1
         stN.append(t)

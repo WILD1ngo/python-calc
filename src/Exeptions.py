@@ -90,5 +90,11 @@ class ConsecutiveOperatorsError(CalculatorError):
     def __init__(self, location=""):
         super().__init__(location)
 
+class MissingOperandError(CalculatorError):
+    """Exception raised when an operand is missing"""
+    message = "Missing operand in expression"
+    def __init__(self, location=""):
+        super().__init__(location)
+
 
 

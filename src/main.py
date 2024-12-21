@@ -1,9 +1,9 @@
-from user_input import *
-from buildTree import *
-from collection.tree import *
-from evaluateTree import *
+from src.user_input import *
+from src.buildTree import *
+from src.collection.tree import *
+from src.evaluateTree import *
 
-def main():
+def main(print_tree = False):
     
     print("this is Yoav Mateless calculator \nWrite 'Exit' to quit")
     while (True):
@@ -12,7 +12,8 @@ def main():
             if input.getStr().strip().lower() == 'exit':
                 break
             tree = TreeBuilder().build(input)
-            tree.display()
+            if print_tree:
+                tree.display()
             print(evaluateExpressionTree(tree))
         except Exception as exs:
             print(exs)

@@ -1,5 +1,5 @@
 import pytest
-from main import calculate_expression
+from src.main import calculate_expression
 
 def test_basic_arithmetic():
     # Addition
@@ -131,3 +131,4 @@ def test_simple_unary_operations():
     assert calculate_expression("~5 + 4") == -1
     assert calculate_expression("~3 - ~6") == 3
     assert calculate_expression("~-3") == 3
+

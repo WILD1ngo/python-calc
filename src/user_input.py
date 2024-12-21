@@ -1,4 +1,4 @@
-from Istrable import *
+from src.Istrable import *
 
 
 class Input(Istrable):
