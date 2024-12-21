@@ -5,7 +5,7 @@ from evaluateTree import *
 
 def main():
     
-    print("this is Yoav Mateless calcoulator \nWrite 'Exit' to quit")
+    print("this is Yoav Mateless calculator \nWrite 'Exit' to quit")
     while (True):
         try:
             input = Input()
