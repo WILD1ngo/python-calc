@@ -139,6 +139,21 @@ class TreeBuilder:
         return i
 
     def build(self,input: Istrable):
+        """
+        Builds an expression tree from an input string containing mathematical expressions.
+        This method processes mathematical expressions with support for parentheses, operators,
+        and negative numbers. It handles both unary and binary operations.
+        Args:
+            input (Istrable): An object that implements Istrable interface, containing the mathematical expression.
+        Returns:
+            Node: The root node of the constructed expression tree.
+        Note:
+            - The input is automatically wrapped with parentheses
+            - Supports negative numbers and double minus operations
+            - Uses two stacks: one for numbers (stN) and one for operators (stC)
+        """
+        
+
         s = "(" + input.getStr() + ")"
         stN = []
         stC = []

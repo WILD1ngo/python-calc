@@ -1,3 +1,5 @@
+
+# This is a simple tree class that is used to create a tree node
 class nptr:
    
     # Constructor to set the data of

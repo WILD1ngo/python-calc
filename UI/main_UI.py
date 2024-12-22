@@ -7,6 +7,7 @@ class App(ctk.CTk):
     height = 350
 
     def __init__(self):
+        #just the ui of the calculator
         super().__init__()
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("dark-blue")

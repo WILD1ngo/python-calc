@@ -2,7 +2,19 @@ import math
 from src.Exeptions import *
 
 def evaluateExpressionTree(root):
- 
+    """
+    Evaluates a mathematical expression tree and returns the result.
+    This function recursively traverses a binary expression tree and performs
+    mathematical operations based on the operator nodes. Supported operations include:
+    basic arithmetic (+, -, *, /), exponentiation (^), modulo (%), max ($), min (&),
+    average (@), negation (~), factorial (!), and sum of digits (#).
+    Args:
+        root: Node object representing the root of the expression tree.
+                Each node contains data (operator/operand) and left/right child references.
+    Returns:
+        float: Result of evaluating the expression tree
+    """
+    
     # empty tree
     if root is None:
         return 0
