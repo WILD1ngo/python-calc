@@ -4,7 +4,7 @@ from src.main import *
 
 #Settings:
 UI = True #If True, the program will run the UI, else it will run the console version
-PrintTree = False # If True, the program will print the tree before calculating the expression 
+PrintTree = True # If True, the program will print the tree before calculating the expression 
 
 
 

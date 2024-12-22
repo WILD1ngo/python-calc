@@ -9,7 +9,7 @@ def evaluateExpressionTree(root):
  
     # leaf node
     if root.left is None and root.right is None:
-        return root.data
+        return float(root.data)
  
     # evaluate left tree
     left_sum = evaluateExpressionTree(root.left)
@@ -63,7 +63,8 @@ def factorial(n):
         raise OverflowError()
     elif not isinstance(n, int) and not n.is_integer():
         raise FloatFactorialError()
-    
+    if (isinstance(n, float)) and n > 100:
+        raise OverflowError()   
     if n < 2:
         return 1
     else:
