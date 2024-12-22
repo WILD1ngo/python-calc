@@ -10,7 +10,7 @@ class App(ctk.CTk):
         super().__init__()
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("dark-blue")
-        self.title("Omega Calculator")
+        self.title("Yoav Mateless Omega Calculator")
         self.geometry(f"{self.width}x{self.height}")
         self.resizable(False, False)
         self.grid_rowconfigure(3, weight=1)
