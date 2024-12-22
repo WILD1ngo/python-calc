@@ -14,6 +14,7 @@ Advanced Operations:
 - max ($)
 - sum of the digits (#)
 - Factorial (!)
+- minus with higher Parentheses (~)
 - Parentheses support for complex expressions
 
 Installation 
