@@ -73,4 +73,6 @@ def factorial(n):
 def sum_of_digits(n):
     if n < 0 :
         raise NegativeSumError()
+    #if 'e' in str(n):
+     #   raise OverflowError()
     return sum([int(i) for i in str(n) if i.isdigit()])

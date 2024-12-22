@@ -96,5 +96,8 @@ class MissingOperandError(CalculatorError):
     def __init__(self, location=""):
         super().__init__(location)
 
-
-
+class MissingNumberBeforeTildeError(CalculatorError):
+    """Exception raised when tilde operator is operator before it"""
+    message = "Operator must appear before tilde operator"
+    def __init__(self, location=""):
+        super().__init__(location)

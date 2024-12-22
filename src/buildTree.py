@@ -6,9 +6,8 @@ from src.Exeptions import *
 class TreeBuilder:
     def __init__(self):
 
-
-        # Operator precedence
         self.p = [0] * 127
+        # Operator precedence
         self.p[ord('+')] = self.p[ord('-')] = 1
         self.p[ord('/')] = self.p[ord('*')] = 2
         self.p[ord('^')] = 3
@@ -51,8 +50,10 @@ class TreeBuilder:
 
         
         if s[i] == '~' and (s[i-1].isdigit() or s[i-1] == ')'):
-            stC.append('+')
+            raise MissingNumberBeforeTildeError(i)
         if s[i] == '-' and s[i-1] == '(':
+            if s[i+1] == '~':
+                raise MissingOperandError
             stN.append(newNode(0))
         stC.append(s[i])
         return i, False
@@ -60,7 +61,10 @@ class TreeBuilder:
     def handle_closing_bracket(self,stN: list, stC: list):
         while len(stC) != 0 and stC[-1] != '(':
             self.process_operator(stN, stC)
-        stC.pop()
+        try:
+            stC.pop()
+        except:
+            raise MissingCerlyBracketsError()
 
     def process_operator(self,stN: list, stC: list):
         t = newNode(stC[-1])
@@ -145,6 +149,8 @@ class TreeBuilder:
         two_digits_in_row = False
         while i < len(s):
             if s[i] == '(':
+                if (i>1 )and( s[i-1].isdigit() or s[i-1] == ')'):
+                    raise MissingOperatorError()
                 stC.append(s[i])
             elif (s[i] == '-' and s[i+1] == '-') or (s[i] == '~' and s[i+1] == '-'):
                 i = self.handle_double_minus(s, i, stN, stC)
